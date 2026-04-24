@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="HealthAI - AI-powered healthcare assistant for rural India. Get instant symptom analysis, risk assessment, and health advice in Hindi and English.">
+    <meta name="theme-color" content="#0F172A">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>HealthAI - AI Health Assistant | स्वास्थ्य सहायक</title>
+    <!-- FIX: Correct path — static files are mounted at /static -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏥</text></svg>">
+</head>
+<body>
+    <!-- ═══════════ HEADER ═══════════ -->
+    <header class="header">
+        <div class="container header-content">
+            <div class="logo">
+                <div class="logo-icon">🏥</div>
+                <div class="logo-text">
+                    <h1 data-i18n="appName">HealthAI</h1>
+                    <p data-i18n="tagline">AI Health Assistant</p>
+                </div>
+            </div>
+            <div class="lang-toggle">
+                <button class="lang-btn active" data-lang="en">EN</button>
+                <button class="lang-btn" data-lang="hi">हिं</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ═══════════ NAVIGATION ═══════════ -->
+    <div class="container">
+        <nav class="nav-tabs">
+            <button class="nav-tab active" data-tab="symptoms">
+                <span class="icon">🧠</span>
+                <span data-i18n="tabSymptoms">Symptoms</span>
+            </button>
+            <button class="nav-tab" data-tab="hospitals">
+                <span class="icon">🏥</span>
+                <span data-i18n="tabHospitals">Hospitals</span>
+            </button>
+            <button class="nav-tab" data-tab="schemes">
+                <span class="icon">🏛️</span>
+                <span data-i18n="tabSchemes">Schemes</span>
+            </button>
+            <button class="nav-tab" data-tab="history">
+                <span class="icon">📋</span>
+                <span data-i18n="tabHistory">History</span>
+            </button>
+        </nav>
+    </div>
+
+    <!-- ═══════════ MAIN CONTENT ═══════════ -->
+    <main class="container" style="padding-bottom: 32px;">
+        
+        <!-- ──── TAB: SYMPTOMS ──── -->
+        <div id="tab-symptoms" class="tab-content active">
+            
+
+            <!-- Input Card -->
+            <div class="card">
+                <div class="card-title">🧠 <span data-i18n="tabSymptoms">Symptoms</span></div>
+                <div class="card-subtitle" style="margin-bottom:12px;">
+                    Enter patient details / मरीज़ की जानकारी दें
+                </div>
+
+                <!-- User Profile Fields -->
+                <div class="profile-grid">
+                    <div class="form-group" style="margin-bottom:0;">
+                        <label class="form-label">Age / उम्र</label>
+                        <input type="number" id="userAge" class="form-select" value="25" min="0" max="130">
+                    </div>
+                    <div class="form-group" style="margin-bottom:0;">
+                        <label class="form-label">Sex / लिंग</label>
+                        <select id="userSex" class="form-select">
+                            <option value="male" selected>Male / पुरुष</option>
+                            <option value="female">Female / महिला</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="card-subtitle" style="margin-bottom:8px;">
+                    Tell us how you're feeling / अपनी तबीयत बताएं
+                </div>
+                
+                <!-- Voice Status -->
+                <div id="voiceStatus" class="voice-status" data-i18n="voiceReady">Tap mic to speak in Hindi or English</div>
+                
+                <!-- Input Area -->
+                <div class="input-group">
+                    <textarea 
+                        id="symptomInput" 
+                        class="symptom-input" 
+                        data-i18n="inputPlaceholder"
+                        placeholder="Describe your symptoms here...&#10;Example: I have fever and headache&#10;या हिंदी में: मुझे बुखार और सर दर्द है"
+                    ></textarea>
+                    <button id="voiceBtn" class="voice-btn" onclick="toggleVoice()" title="Voice Input">
+                        🎤
+                    </button>
+                </div>
+
+                <!-- Quick Symptom Tags -->
+                <div style="margin-bottom:8px; font-size:13px; color:var(--text-muted); font-weight:600;" data-i18n="quickLabel">Quick symptoms:</div>
+                <div class="quick-symptoms">
+                    <button class="quick-tag" onclick="addQuickSymptom('fever')" data-i18n="fever">Fever / Bukhar</button>
+                    <button class="quick-tag" onclick="addQuickSymptom('cough')" data-i18n="cough">Cough / Khansi</button>
+                    <button class="quick-tag" onclick="addQuickSymptom('headache')" data-i18n="headache">Headache / Sir Dard</button>
+                    <button class="quick-tag" onclick="addQuickSymptom('chest pain')" data-i18n="chestPain">Chest Pain</button>
+                    <button class="quick-tag" onclick="addQuickSymptom('breathlessness')" data-i18n="breathless">Breathlessness</button>
+                    <button class="quick-tag" onclick="addQuickSymptom('stomach pain')" data-i18n="stomachPain">Stomach Pain</button>
+                    <button class="quick-tag" onclick="addQuickSymptom('vomiting')" data-i18n="vomiting">Vomiting / Ulti</button>
+                    <button class="quick-tag" onclick="addQuickSymptom('diarrhea')" data-i18n="diarrhea">Diarrhea / Dast</button>
+                    <button class="quick-tag" onclick="addQuickSymptom('body pain')" data-i18n="bodyPain">Body Pain</button>
+                    <button class="quick-tag" onclick="addQuickSymptom('weakness')" data-i18n="weakness">Weakness</button>
+                </div>
+
+                <!-- Analyze Button -->
+                <button id="analyzeBtn" class="btn btn-primary" onclick="analyzeSymptoms()">
+                    <span data-i18n="analyzeBtn">🔍 Analyze Symptoms</span>
+                </button>
+            </div>
+
+            <!-- Loading State -->
+            <div id="loadingState" class="loading">
+                <div class="spinner"></div>
+                <div class="loading-text" data-i18n="analyzing">Analyzing your symptoms with AI...</div>
+            </div>
+
+            <!-- ──── RESULTS ──── -->
+            <div id="resultsContainer" class="results-container">
+                
+                <!-- Risk Badge -->
+                <div id="riskBadge" class="risk-badge risk-low">
+                    <!-- Populated by JS -->
+                </div>
+
+                <!-- Emergency Button (only for HIGH risk) -->
+                <div id="emergencySection" class="hidden" style="margin-bottom:16px;">
+                    <button class="btn btn-emergency" onclick="triggerEmergency()">
+                        <span data-i18n="emergencyBtn">🚨 Call Emergency (108)</span>
+                    </button>
+                </div>
+
+                <!-- AI-Powered Analysis (Gemini) -->
+                <div id="aiAnalysisCard" class="card hidden">
+                    <div class="card-title">🤖 <span data-i18n="aiAnalysis">AI Detailed Analysis</span></div>
+                    <div id="aiAnalysisContent" class="ai-analysis-content">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- Detected Symptoms -->
+                <div class="card">
+                    <div class="card-title">🔬 <span data-i18n="detectedSymptoms">Detected Symptoms</span></div>
+                    <div id="detectedSymptoms" class="symptom-chips">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- Suspected Conditions (Knowledge Base) -->
+                <div id="conditionsCard" class="card hidden">
+                    <div class="card-title">🔬 <span data-i18n="suspectedConditions">Suspected Conditions</span></div>
+                    <div id="conditionsList" class="conditions-grid">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- Recommended Specialists -->
+                <div id="specialistsCard" class="card hidden">
+                    <div class="card-title">👨‍⚕️ <span data-i18n="recommendedSpecialists">Recommended Specialists</span></div>
+                    <div id="specialistsList" class="specialists-grid">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- Health Advice -->
+                <div class="card">
+                    <div class="flex-between" style="margin-bottom:12px;">
+                        <div class="card-title">💊 <span data-i18n="advice">Health Advice</span></div>
+                        <button class="speak-btn" onclick="speakResults()">
+                            <span data-i18n="speakResult">🔊 Speak Result</span>
+                        </button>
+                    </div>
+                    <div id="adviceList">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- Action -->
+                <div class="card">
+                    <div class="card-title">📋 <span data-i18n="action">Recommended Action</span></div>
+                    <p id="actionText" style="font-size:15px; line-height:1.7; margin-top:8px;"></p>
+                </div>
+
+                <!-- Nearby Hospitals (shown in results for MEDIUM/HIGH) -->
+                <div id="resultHospitals" class="card hidden">
+                    <!-- Populated by JS -->
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ──── TAB: HOSPITALS ──── -->
+        <div id="tab-hospitals" class="tab-content">
+            <div class="card">
+                <div class="card-title">🏥 <span data-i18n="hospitalsTitle">Nearby Hospitals & Clinics</span></div>
+                <div class="card-subtitle" data-i18n="hospitalsSubtitle">Find healthcare facilities near you</div>
+            </div>
+
+            <!-- Map Placeholder -->
+            <div class="map-container">
+                <div class="map-placeholder">
+                    <div class="map-icon">🗺️</div>
+                    <p data-i18n="mapLabel" style="font-size:14px; font-weight:600;">Hospital Map</p>
+                    <p style="font-size:12px;">Google Maps integration</p>
+                    <button class="hospital-btn" onclick="window.open('https://www.google.com/maps/search/hospitals+near+me', '_blank')" style="margin-top:8px;">
+                        🌐 Open Google Maps
+                    </button>
+                </div>
+            </div>
+
+            <!-- Hospital List -->
+            <div id="hospitalsList">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+
+        <!-- ──── TAB: SCHEMES ──── -->
+        <div id="tab-schemes" class="tab-content">
+            <div class="card">
+                <div class="card-title">🏛️ <span data-i18n="govtSchemesTitle">Government Health Schemes</span></div>
+                <div class="card-subtitle" data-i18n="govtSchemesSubtitle">Check your eligibility for free healthcare</div>
+            </div>
+
+            <div id="schemeForm" class="card">
+                <div class="form-group">
+                    <label class="form-label" data-i18n="incomeLabel">Your Income Level</label>
+                    <select id="incomeSelect" class="form-select">
+                        <option value="" disabled selected>-- Select / चुनें --</option>
+                        <option value="low_income" data-i18n-option="incomeLow">Low Income (BPL / Below ₹2.5 Lakh)</option>
+                        <option value="other" data-i18n-option="incomeOther">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" data-i18n="areaLabel">Your Area</label>
+                    <select id="areaSelect" class="form-select">
+                        <option value="" disabled selected>-- Select / चुनें --</option>
+                        <option value="rural" data-i18n-option="areaRural">Rural (Gaon)</option>
+                        <option value="urban" data-i18n-option="areaUrban">Urban (Sheher)</option>
+                    </select>
+                </div>
+                <button class="btn btn-success" onclick="checkSchemeEligibility()">
+                    <span data-i18n="checkEligibility">🏥 Check Eligibility</span>
+                </button>
+            </div>
+
+            <div id="schemeResults">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+
+        <!-- ──── TAB: HISTORY ──── -->
+        <div id="tab-history" class="tab-content">
+            <div class="card">
+                <div class="flex-between">
+                    <div class="card-title">📋 <span data-i18n="historyTitle">Previous Checkups</span></div>
+                    <button class="hospital-btn" onclick="clearHistory()" data-i18n="clearHistory">Clear History</button>
+                </div>
+            </div>
+            <div id="historyList">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+
+    </main>
+
+    <!-- ═══════════ EMERGENCY MODAL ═══════════ -->
+    <div id="emergencyModal" class="modal-overlay" onclick="if(event.target===this)closeModal()">
+        <div class="modal">
+            <div class="modal-icon">🚑</div>
+            <div class="modal-title" data-i18n="emergencyModalTitle">Emergency Call Initiated</div>
+            <p id="modalText" class="modal-text" data-i18n="emergencyModalText">
+                Calling nearest emergency services at 108. An ambulance is being dispatched to your location. Estimated arrival: 10-15 minutes.
+            </p>
+            <div class="modal-actions">
+                <a href="tel:108" class="btn btn-emergency" style="text-decoration:none; font-size:16px; padding:14px;">
+                    📞 Call 108 Now
+                </a>
+                <a href="tel:112" class="btn btn-secondary" style="text-decoration:none; text-align:center;">
+                    📞 Call 112 (Police)
+                </a>
+                <button class="modal-close" onclick="closeModal()" data-i18n="emergencyModalClose">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════ FOOTER ═══════════ -->
+    <footer class="footer container">
+        <p style="margin-top:4px;">Emergency: <a href="tel:108">108</a> | Health Helpline: <a href="tel:104">104</a></p>
+    </footer>
+
+    <!-- FIX: Correct path — static files are mounted at /static -->
+    <script src="app.js"></script>
+</body>
+</html>
